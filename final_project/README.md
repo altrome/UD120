@@ -105,7 +105,7 @@ Finally, two new features were created:
 
 As said previously, the final Classifier Used was DecisionTreeClassifier, basically due to the balance among all the evaluation Metrics, but specially the F1 Score. The time spent performing the calculations was an important point on the final decision too.
 
-The in initial values of the evaluation metrics without tunning the classifier were:
+The initial values of the evaluation metrics without tunning the classifier were:
 
 | Accuracy | Precision | Recall |   F1  |
 |----------|-----------|--------|-------|
@@ -129,6 +129,29 @@ Surprisingly, once performed the classifier tunning (after a loooong processing 
 |  0.819   |   0.370   | 0.383  | 0.377 |
 
 > As we can see, tunning the classifier with a different parameters form the default ones gives slightly better results than not tunned version.
+
+# Evaluation
+
+The last part of the project was to Evaluate the results, although a constant evaluation is performed along all the testing process... 
+
+This evaluation Stage, was performed using a different function than the used on the other two stages (Custom Scorer). The script used is a copy of the script used in the *tester.py* but slightly changed. The code used can be found at *helper.py* file.
+
+The results obtained were pretty close to the results shown above, due to the randomness of the StratifiedShuffleSplit.
+
+| Accuracy | Precision | Recall |   F1  |   F2  |
+|----------|-----------|--------|-------|-------|
+|  0.819   |   0.372   | 0.392  | 0.382 | 0.388 | 
+
+> Regarding the initial objective, of achieve a precision and recall greater than 0.3, we can conclude that the objective was accomplished.
+
+# Final Considerations
+
+This project helped me a lot to understand the different tools available on Machine Learning Field and gave me a full toolbox to tackle projects with certain grade of complexity. 
+
+As commented above, the most exhausting part was to find new features that improve the performance of the general model.
+
+
+
 
 
 
