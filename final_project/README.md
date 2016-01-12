@@ -8,14 +8,16 @@ The focus of this project is to try to construct a prediction model that could p
   - 5 Email features
   - 1 POI (boolean feature describing if a given person is or not a POI based on if that person was charge, convicted or link (settlement or testification) to fraud)
 
-This dataset is composed by 146 datapoints (persons), from which 18 are identified as POI. There are two datapoint that must be removed, as they are not persons discovered by performing a visual exploration of the data plus some plots. These datapoints are labeled as "TOTAL" and "THE TRAVEL AGENCY IN THE PARK".
+This dataset is composed by 146 datapoints (persons), from which 18 are identified as POI. There are two datapoint that must be removed, as they are not persons, discovered by performing a visual exploration of the data plus some plots. These datapoints are labeled as "TOTAL" and "THE TRAVEL AGENCY IN THE PARK".
+
+While plotting some of the features, there were some point that seemed outliers, but a deeper inspection revealed that not. They were important data to be considered.
 
 > The final dataset used to perform the investigation is composed by 144 datapoints (18 POI's) and 19 features for each datapoint
 
 The procedure followed, was structured in 3 main stages:
 
   - Feature Selection & Classifier Testing
-  - Classifier tunning & Validation
+  - Classifier tuning & Validation
   - Evaluation
 
 # Feature Selection & Classifier Testing
@@ -23,7 +25,7 @@ To perform this stage, I used the script in the *feature_selection.py* file, plu
 
 The objective is to find best features using GridSearchCV, by testing manually combinations of Classifiers (GaussianNB, DecisionTreeClassifier, SVM, LinearSVC, RandomForestClassifier & AdaBoostClassifier), and Selectors (SelectPercentile, SelectKBest).
 
-The Evaluation Metrics used to compare the performace among all the classifiers were:
+The Evaluation Metrics used to compare the performance among all the classifiers were:
 
   - Accuracy: the number of correct classification (poi or not poi in our case) divided by the number of data points. 
   - Precision: the ability of the classifier not to label as positive a sample that is negative.
@@ -101,17 +103,19 @@ Finally, two new features were created:
   - *Salary_ratio_log*: Viewing the high weight of the feature *salary*, I decided to test some combinations using it to see if I could improve the model performance. Ploting *salary* versus *total_payments* gave me an idea on how to deal with it, and the logaritmic transformation of the ratio salary / total_payments seems to do a good job.
   - *from_to_poi_ratio*: This is a variable that combines all the email features in one, because I regard that if a person is a poi, could have a higher ratio of messages sent to + received from a poi than a not poi persons. The final feature is the sum of messages sent to, received from and shared receipt with a poi divided by the sum of total amount of messages sent and received.
 
-# Classifier tunning & Validation
+Prior to each new feature creation, I had to check that it was a number, otherwise 0 was assigned.
 
-As said previously, the final Classifier Used was DecisionTreeClassifier, basically due to the balance among all the evaluation Metrics, but specially the F1 Score. The time spent performing the calculations was an important point on the final decision too.
+# Classifier tuning & Validation
 
-The initial values of the evaluation metrics without tunning the classifier were:
+As said previously, the final Classifier Used was DecisionTreeClassifier, basically due to the balance among all the evaluation Metrics, but especially the F1 Score. The time spent performing the calculations was an important point on the final decision too.
+
+The initial values of the evaluation metrics without tuning the classifier were:
 
 | Accuracy | Precision | Recall |   F1  |
 |----------|-----------|--------|-------|
 |  0.806   |   0.368   | 0.365  | 0.367 |
 
-Tunning a classifier means to find the best parameters to maximize the score.Using a pipeline with all the parameters to be tuned, the classifier, a scorer and a CrossValidation method (StratifiedShuffleSplit), we can launch a GridSearchCV that find best score value for a given scorer. The parameters used to test were:
+Tuning a classifier means to find the best parameters to maximize the score.Using a pipeline with all the parameters to be tuned, the classifier, a scorer and a CrossValidation method (StratifiedShuffleSplit), we can launch a GridSearchCV that find best score value for a given scorer. The parameters used to test were:
 
   - splitter:  ['best','random'],
   - criterion: ['entropy', 'gini'],
@@ -122,13 +126,13 @@ Tunning a classifier means to find the best parameters to maximize the score.Usi
 
 Because of the small size of the dataset, the Cross-Validator StratifiedShuffleSplit was used like the test_classifier function on the *tester.py* script. This cross-validation object is a merge of StratifiedKFold and ShuffleSplit, which returns stratified randomized folds. The folds are made by preserving the percentage of samples for each class. The number of folds used were 1000.
 
-Surprisingly, once performed the classifier tunning (after a loooong processing time...), the only parameter that improves the model (different of the default ones) was *splitter* set to *random*, and the results were:
+Surprisingly, once performed the classifier tuning (after a loooong processing time...), the only parameter that improves the model (different of the default ones) was *splitter* set to *random*, and the results were:
 
 | Accuracy | Precision | Recall |   F1  |
 |----------|-----------|--------|-------|
 |  0.819   |   0.370   | 0.383  | 0.377 |
 
-> As we can see, tunning the classifier with a different parameters form the default ones gives slightly better results than not tunned version.
+> As we can see, tuning the classifier with a different parameters form the default ones gives slightly better results than not tuned version.
 
 # Evaluation
 
@@ -146,9 +150,19 @@ The results obtained were pretty close to the results shown above, due to the ra
 
 # Final Considerations
 
-This project helped me a lot to understand the different tools available on Machine Learning Field and gave me a full toolbox to tackle projects with certain grade of complexity. 
+This project helped me a lot to understand the different tools available on Machine Learning Field and gave me a full toolbox to tackle projects with certain grade of complexity. As commented above, the most exhausting part was to find new features that improve the performance of the general model, and the time spent in some calculations, in the tuning part... sometimes my machine seemed crashed...
 
-As commented above, the most exhausting part was to find new features that improve the performance of the general model.
+## References
+
+  - [SciKit](http://scikit-learn.org/)
+  - [Udacity - Intro to Machine Learning](https://www.udacity.com/course/viewer#!/c-ud120-nd)
+  - [Python Docs](https://docs.python.org/)
+  - [how-to-get-both-mse-and-r2-from-a-sklearn-gridsearchcv](http://stackoverflow.com/questions/25125194/how-to-get-both-mse-and-r2-from-a-sklearn-gridsearchcv)
+  - [sklearn-cross-validation-with-multiple-scores](http://stackoverflow.com/questions/23339523/sklearn-cross-validation-with-multiple-scores)
+  - [using-global-variables-in-a-function-other-than-the-one-that-created-them](http://stackoverflow.com/questions/423379/using-global-variables-in-a-function-other-than-the-one-that-created-them)
+  - [PrettyTable](https://code.google.com/p/prettytable/)
+
+
 
 
 

@@ -50,6 +50,14 @@ RESULT:
 # for person in sorted(data_dict):
 #     print person
 
+# is_poi = 0
+# total = 0
+# for person in data_dict:   
+#     if data_dict[person]['poi']:
+#         is_poi += 1
+#     total += 1
+# print is_poi, total
+
 for outlier in ['TOTAL','THE TRAVEL AGENCY IN THE PARK']:
     data_dict.pop(outlier,0)
 
@@ -61,16 +69,8 @@ RESULT:
 ********************************************************************************
 """
 
-# is_poi = 0
-# total = 0
-# for person in data_dict:   
-#     if data_dict[person]['poi']:
-#         is_poi += 1
-#     total += 1
-# print is_poi, total
-
+### Check NaN
 for person in data_dict:
-    # NaN ---> 0
     for feature in ['salary', 
                     'deferral_payments', 
                     'total_payments', 
@@ -125,34 +125,6 @@ for person in data_dict:
 ### Store to my_dataset for easy export below.
 my_dataset = data_dict
 #pprint.pprint(my_dataset)
-
-
-
-# def Draw(mark_poi=False, f1_name="feature 1", f2_name="feature 2"):
-#     import matplotlib.pyplot as plt
-#     features_list_plot = ['poi', f1_name, f2_name]
-#     data = featureFormat(my_dataset, features_list_plot, sort_keys = True)
-#     poi, features = targetFeatureSplit( data )
-#     idx = 0
-#     for feature in features:
-#         plt.scatter(feature[0], feature[1])
-#     idx = 0
-#     if mark_poi:
-#         for feature in features:
-#             if poi[idx]:
-#                 plt.scatter(feature[0], feature[1], color="r", marker="*")
-#             idx += 1
-#     plt.xlabel(f1_name)
-#     plt.ylabel(f2_name)
-#     plt.show()
-
-# Draw(mark_poi=True, f1_name="extras", f2_name="total_payments")
-
-# for person in my_dataset:
-#     if my_dataset[person]['poi'] > 100000000:
-#         print person
-#     if my_dataset[person]['extras'] > 6000000:
-#         print person
 
 
 ### Extract features and labels from dataset for local testing
@@ -409,29 +381,48 @@ getMetrics(clf, data, features_list)
 """
 ********************************************************************************
 TASK 6 - Dump your classifier, dataset, and features_list
-IMPORTANT NOTES: 
-    
+DESCRIPTION: 
+    Store Project data to perfom testing
 RESULT:
-    
+    my_classifier.pkl, my_dataset.pkl and my_feature_list.pkl
 ********************************************************************************
 """
 
 dump_classifier_and_data(clf, my_dataset, features_list)
 
-
 """
 ********************************************************************************
-ANNEX 0 - Code used while testing and tunning
-IMPORTANT NOTES: 
-    
-RESULT:
-    
+ANNEX 0 - Code used while inspecting, testing and tunning
+DESCRIPTION: 
+    Pieces of code used in some stage of the project
 ********************************************************************************
 """
 
+### Ploting features relations
+# def Draw(mark_poi=False, f1_name="feature 1", f2_name="feature 2"):
+#     import matplotlib.pyplot as plt
+#     features_list_plot = ['poi', f1_name, f2_name]
+#     data = featureFormat(my_dataset, features_list_plot, sort_keys = True)
+#     poi, features = targetFeatureSplit( data )
+#     idx = 0
+#     for feature in features:
+#         plt.scatter(feature[0], feature[1])
+#     idx = 0
+#     if mark_poi:
+#         for feature in features:
+#             if poi[idx]:
+#                 plt.scatter(feature[0], feature[1], color="r", marker="*")
+#             idx += 1
+#     plt.xlabel(f1_name)
+#     plt.ylabel(f2_name)
+#     plt.show()
+
+# Draw(mark_poi=True, f1_name="extras", f2_name="total_payments")
+
+
+### Tunning RandomForest Classifier
 # from sklearn.feature_selection import SelectKBest
 # selector = SelectKBest()
-
 
 # from sklearn.pipeline import Pipeline
 
@@ -458,6 +449,7 @@ RESULT:
 #                 # 'max_features': range(2, 3, 1) + ['auto', 'sqrt', 'log2'],
 #                 # 'max_leaf_nodes': [None] + range(2, 10, 1)
 
+### Tunning DecisionTree Classifier
 ### DECISION TREE
 # from sklearn.tree import DecisionTreeClassifier
 # clf = DecisionTreeClassifier()
@@ -471,6 +463,7 @@ RESULT:
 #                 #'classifier__max_features': [None, 'auto', 'sqrt', 'log2'],
 #                 #'classifier__max_leaf_nodes': range(2, 10, 1)
 #              }
+
 ## GridSearch with selector
 # pipeline = Pipeline([('selector', selector),('classifier', clf)])
 # clf = GridSearchCV( pipeline, 

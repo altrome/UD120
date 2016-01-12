@@ -72,7 +72,6 @@ USE:
 RETURNS:
     Scorer
 SOURCE:
-    http://stackoverflow.com/questions/25125194/how-to-get-both-mse-and-r2-from-a-sklearn-gridsearchcv
 '''
 
 def getScorings(estimator, X_test, y_test):
