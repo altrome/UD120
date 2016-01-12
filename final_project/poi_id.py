@@ -369,7 +369,6 @@ RESULT:
 #                 'min_samples_split': [2, 4, 6, 8],
 #                 'max_depth': [2, 4, 6],
 #                 'class_weight': [None, "auto"],
-#                 'max_features': range(2, 3, 1) + ['auto', 'sqrt', 'log2'],
 #                 'max_leaf_nodes': [None] + range(2, 10, 1)
 #              }
 
