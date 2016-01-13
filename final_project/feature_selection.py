@@ -36,6 +36,7 @@ OPTIONAL:
 
 import sys
 import pickle
+from math import isnan
 sys.path.append("../tools/")
 import warnings
 warnings.filterwarnings("ignore")
@@ -66,11 +67,71 @@ features_list = [   'poi',
                     'from_poi_to_this_person', 
                     'from_messages', 
                     'from_this_person_to_poi', 
-                    'shared_receipt_with_poi']
+                    'shared_receipt_with_poi',
+                    # 'salary_ratio',
+                    # 'deferred_ratio',
+                    # 'extras',
+                    'salary_ratio_log',
+                    'from_to_poi_ratio',
+                    # 'restricted_stock_real'
+                    ]
 
 ### Removing outliers identified in poi_id TASK 0
 for outlier in ['TOTAL','THE TRAVEL AGENCY IN THE PARK']:
     data_dict.pop(outlier,0)
+
+### Check NaN
+for person in data_dict:
+    for feature in ['salary', 
+                    'deferral_payments', 
+                    'total_payments', 
+                    'loan_advances', 
+                    'bonus', #
+                    'restricted_stock_deferred', 
+                    'deferred_income', 
+                    'total_stock_value', #
+                    'expenses', 
+                    'exercised_stock_options', #
+                    'other', 
+                    'long_term_incentive', 
+                    'restricted_stock', 
+                    'director_fees',
+                    'to_messages', 
+                    'from_poi_to_this_person', 
+                    'from_messages', 
+                    'from_this_person_to_poi', 
+                    'shared_receipt_with_poi']:
+        if isnan(float(data_dict[person][feature])):
+            data_dict[person][feature] = 0
+    # try:
+    #     data_dict[person]['salary_ratio'] = float(data_dict[person]['salary']) / float(data_dict[person]['total_payments'])
+    # except:
+    #     data_dict[person]['salary_ratio'] = 0
+
+    # try:
+    #     data_dict[person]['deferred_ratio'] = float(abs(data_dict[person]['deferred_income'])) / float(data_dict[person]['total_payments'])
+    # except:
+    #     data_dict[person]['deferred_ratio'] = 0
+
+    # try:
+    #     data_dict[person]['extras'] = data_dict[person]['expenses'] + data_dict[person]['other'] + data_dict[person]['director_fees'] + data_dict[person]['long_term_incentive']
+    # except: 
+    #     data_dict[person]['extras'] = 0  
+
+    try:
+        data_dict[person]['salary_ratio_log'] = Math.log(float(data_dict[person]['salary']) / float(data_dict[person]['total_payments']) + 1)
+    except:
+        data_dict[person]['salary_ratio_log'] = 0
+
+    try:
+        data_dict[person]['from_to_poi_ratio'] = float(data_dict[person]["from_poi_to_this_person"] + data_dict[person]["from_this_person_to_poi"] + data_dict[person]["shared_receipt_with_poi"]) / float(data_dict[person]['from_messages'] + data_dict[person]['to_messages'])
+    except:
+        data_dict[person]['from_to_poi_ratio'] = 0
+
+    # try:
+    #     data_dict[person]['restricted_stock_real'] = data_dict[person]['restricted_stock'] - data_dict[person]['restricted_stock_deferred']
+    # except:
+    #     data_dict[person]['restricted_stock_real'] = 0
 
 my_dataset = data_dict
 

@@ -27,9 +27,9 @@ The objective is to find best features using GridSearchCV, by testing manually c
 
 The Evaluation Metrics used to compare the performance among all the classifiers were:
 
-  - Accuracy: the number of correct classification (poi or not poi in our case) divided by the number of data points. 
-  - Precision: the ability of the classifier not to label as positive a sample that is negative.
-  - Recall: the ability of the classifier to find all the positive samples.
+  - Accuracy: the sum true positives (real POI's classified as POI) and true negatives (real non-POI classified as non-POI) divided by the total number of observations. 
+  - Precision: number of true positives (real POI's classified as POI) divided by the total number of elements labeled (the sum of true positives and false positives, which are real non-POI's classified as POI).
+  - Recall: number of true positives (real POI's classified as POI) divided by the total number of elements that actually belong to POI (i.e. the sum of true positives and false negatives, which are items which were not labeled as POI's but should be POI).
   - F1: weighted average of the precision and recall, where an F1 score reaches its best value at 1 and worst score at 0.
 
 Additionally, the *Time Spent* performing the calculations was stored.
@@ -105,7 +105,7 @@ Finally, two new features were created:
 
 Prior to each new feature creation, I had to check that it was a number, otherwise 0 was assigned.
 
-# Classifier tuning & Validation
+# Classifier tuning & Validation 
 
 As said previously, the final Classifier Used was DecisionTreeClassifier, basically due to the balance among all the evaluation Metrics, but especially the F1 Score. The time spent performing the calculations was an important point on the final decision too.
 
@@ -115,7 +115,7 @@ The initial values of the evaluation metrics without tuning the classifier were:
 |----------|-----------|--------|-------|
 |  0.806   |   0.368   | 0.365  | 0.367 |
 
-Tuning a classifier means to find the best parameters to maximize the score.Using a pipeline with all the parameters to be tuned, the classifier, a scorer and a CrossValidation method (StratifiedShuffleSplit), we can launch a GridSearchCV that find best score value for a given scorer. The parameters used to test were:
+Tuning a classifier means to find the best parameters to maximize the score. Using a pipeline with all the parameters to be tuned, the classifier, a scorer and a CrossValidation method (StratifiedShuffleSplit), we can launch a GridSearchCV that find best score value for a given scorer. The parameters used to test were:
 
   - splitter:  ['best','random'],
   - criterion: ['entropy', 'gini'],
@@ -123,6 +123,8 @@ Tuning a classifier means to find the best parameters to maximize the score.Usin
   - max_depth: [2, 4, 6],
   - class_weight: [None, "auto"],
   - max_leaf_nodes: [None] + range(2, 10, 1)
+
+Validating the model, means to test how well our model has been trained and helps us to understand our results better. This step implies to test our model created from a training test of observations with a test set. One of the most important benefits of validation is that serves as check on overfitting. Sometimes we could think that our model has an extremly good performance but in reality, we have an overfitted model constructed to performe extremly well with our training test but has horrible results in our test set.
 
 Because of the small size of the dataset, the Cross-Validator StratifiedShuffleSplit was used like the test_classifier function on the *tester.py* script. This cross-validation object is a merge of StratifiedKFold and ShuffleSplit, which returns stratified randomized folds. The folds are made by preserving the percentage of samples for each class. The number of folds used were 1000.
 
@@ -133,6 +135,8 @@ Surprisingly, once performed the classifier tuning (after a loooong processing t
 |  0.819   |   0.370   | 0.383  | 0.377 |
 
 > As we can see, tuning the classifier with a different parameters form the default ones gives slightly better results than not tuned version.
+
+
 
 # Evaluation
 
@@ -161,6 +165,8 @@ This project helped me a lot to understand the different tools available on Mach
   - [sklearn-cross-validation-with-multiple-scores](http://stackoverflow.com/questions/23339523/sklearn-cross-validation-with-multiple-scores)
   - [using-global-variables-in-a-function-other-than-the-one-that-created-them](http://stackoverflow.com/questions/423379/using-global-variables-in-a-function-other-than-the-one-that-created-them)
   - [PrettyTable](https://code.google.com/p/prettytable/)
+  - [Precision and Recall](https://en.wikipedia.org/wiki/Precision_and_recall)
+  - [Preventing "Overfitting" of CrossValidation Data](http://ai.stanford.edu/~ang/papers/cv-final.pdf)
 
 
 
