@@ -180,7 +180,7 @@ The results obtained were pretty close to the results shown above, due to the ra
 
 # Final Considerations
 
-This project helped me a lot to understand the different tools available on Machine Learning Field and gave me a full toolbox to tackle projects with certain grade of complexity. As commented above, the most exhausting part was to find new features that improve the performance of the general model, and the time spent in some calculations, in the tuning part... sometimes my machine seemed crashed...
+This project helped me a lot to understand the different tools available on Machine Learning Field and gave me a full toolbox to tackle projects with certain grade of complexity. As commented above, the most exhausting (and sometimes frustrating) part was to find new features that improve the performance of the general model, and the time spent in some calculations, in the tuning part... sometimes my machine seemed crashed...
 
 ## References
 
