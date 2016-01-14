@@ -105,6 +105,34 @@ Finally, two new features were created:
 
 Prior to each new feature creation, I had to check that it was a number, otherwise 0 was assigned.
 
+Let's test now, if these two new features really have significative weight over the model, by testing them on the feature selection script. The results now were:
+
+| Weight | Feature |
+|--------|---------|
+| 24.82 | exercised_stock_options |
+| 24.18 | total_stock_value |
+| 20.79 | bonus |
+| 18.29 | salary |
+| 11.46 | deferred_income |
+| 10.02 | from_to_poi_ratio |
+| 9.92  | long_term_incentive |
+| 9.21  | restricted_stock |
+| 8.77  | total_payments |
+| 8.59  | shared_receipt_with_poi |
+| 7.18  | loan_advances |
+| 6.09  | expenses |
+| 5.24  | from_poi_to_this_person |
+| 4.19  | other |
+| 2.69  | salary_ratio_log |
+| 2.38  | from_this_person_to_poi |
+| 2.13  | director_fees |
+| 1.65  | to_messages |
+| 0.22  | deferral_payments |
+| 0.17  | from_messages |
+| 0.07  | restricted_stock_deferred |
+
+> Surpisingly, these two features don't have the significative weight I was expecting, and the feature selection algorithm still continues selecting the same 3 features as the best features that maximizes the score. So, definitively the features included in the final model will be *exercised_stock_options, total_stock_value, bonus*
+
 # Classifier tuning & Validation 
 
 As said previously, the final Classifier Used was DecisionTreeClassifier, basically due to the balance among all the evaluation Metrics, but especially the F1 Score. The time spent performing the calculations was an important point on the final decision too.
@@ -135,8 +163,6 @@ Surprisingly, once performed the classifier tuning (after a loooong processing t
 |  0.819   |   0.370   | 0.383  | 0.377 |
 
 > As we can see, tuning the classifier with a different parameters form the default ones gives slightly better results than not tuned version.
-
-
 
 # Evaluation
 

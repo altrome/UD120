@@ -3,7 +3,7 @@
 import sys
 import pickle
 import pprint
-from math import isnan
+import math
 sys.path.append("../tools/")
 import warnings
 warnings.filterwarnings("ignore")
@@ -90,8 +90,8 @@ for person in data_dict:
                     'from_messages', 
                     'from_this_person_to_poi', 
                     'shared_receipt_with_poi']:
-        if isnan(float(data_dict[person][feature])):
-            data_dict[person][feature] = 0
+        if math.isnan(float(data_dict[person][feature])):
+            data_dict[person][feature] = 0.0
     # try:
     #     data_dict[person]['salary_ratio'] = float(data_dict[person]['salary']) / float(data_dict[person]['total_payments'])
     # except:
@@ -108,9 +108,9 @@ for person in data_dict:
     #     data_dict[person]['extras'] = 0  
 
     try:
-        data_dict[person]['salary_ratio_log'] = Math.log(float(data_dict[person]['salary']) / float(data_dict[person]['total_payments']) + 1)
+        data_dict[person]['salary_ratio_log'] = math.log(float(data_dict[person]['salary']) / float(data_dict[person]['total_payments']) + 1)
     except:
-        data_dict[person]['salary_ratio_log'] = 0
+        data_dict[person]['salary_ratio_log'] = 0.0
 
     try:
         data_dict[person]['from_to_poi_ratio'] = float(data_dict[person]["from_poi_to_this_person"] + data_dict[person]["from_this_person_to_poi"] + data_dict[person]["shared_receipt_with_poi"]) / float(data_dict[person]['from_messages'] + data_dict[person]['to_messages'])
@@ -125,7 +125,6 @@ for person in data_dict:
 ### Store to my_dataset for easy export below.
 my_dataset = data_dict
 #pprint.pprint(my_dataset)
-
 
 ### Extract features and labels from dataset for local testing
 data = featureFormat(my_dataset, features_list, sort_keys = True)

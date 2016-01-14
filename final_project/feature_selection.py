@@ -36,7 +36,7 @@ OPTIONAL:
 
 import sys
 import pickle
-from math import isnan
+import math
 sys.path.append("../tools/")
 import warnings
 warnings.filterwarnings("ignore")
@@ -101,7 +101,7 @@ for person in data_dict:
                     'from_messages', 
                     'from_this_person_to_poi', 
                     'shared_receipt_with_poi']:
-        if isnan(float(data_dict[person][feature])):
+        if math.isnan(float(data_dict[person][feature])):
             data_dict[person][feature] = 0
     # try:
     #     data_dict[person]['salary_ratio'] = float(data_dict[person]['salary']) / float(data_dict[person]['total_payments'])
@@ -119,9 +119,9 @@ for person in data_dict:
     #     data_dict[person]['extras'] = 0  
 
     try:
-        data_dict[person]['salary_ratio_log'] = Math.log(float(data_dict[person]['salary']) / float(data_dict[person]['total_payments']) + 1)
+        data_dict[person]['salary_ratio_log'] = math.log(float(data_dict[person]['salary']) / float(data_dict[person]['total_payments']) + 1)
     except:
-        data_dict[person]['salary_ratio_log'] = 0
+        data_dict[person]['salary_ratio_log'] = 0.0
 
     try:
         data_dict[person]['from_to_poi_ratio'] = float(data_dict[person]["from_poi_to_this_person"] + data_dict[person]["from_this_person_to_poi"] + data_dict[person]["shared_receipt_with_poi"]) / float(data_dict[person]['from_messages'] + data_dict[person]['to_messages'])
@@ -325,7 +325,7 @@ classifier = DecisionTreeClassifier()
 from helper import getScorings, printMetrics
 
 pipeline = Pipeline([('selector', selector),('classifier', classifier)])
-cv = StratifiedShuffleSplit(labels, 1000, random_state = 42)
+cv = StratifiedShuffleSplit(labels, 10, random_state = 42)
 parameters = {  
                 # 'selector__percentile': range(10, 101, 5) # for Percentile
                 'selector__k': range(2, 20, 1) # for Kbest
